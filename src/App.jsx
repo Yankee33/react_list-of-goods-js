@@ -35,16 +35,15 @@ export const App = () => {
     return sorted;
   }, [sortType, isReversed]);
 
-  // ВИПРАВЛЕНО: Примусово скидаємо isReversed, щоб гарантувати сортування A-Z
+  // ВИПРАВЛЕНО: Збереження стану isReversed при зміні sortType
   const sortByAlph = () => {
     setSortType('alphabet');
-    setIsReversed(false);
+    // setIsReversed(false); <--- Рядок видалено
   };
 
-  // ВИПРАВЛЕНО: Примусово скидаємо isReversed
   const sortByLength = () => {
     setSortType('length');
-    setIsReversed(false);
+    // setIsReversed(false); <--- Рядок видалено
   };
 
   const reverse = () => {
@@ -58,15 +57,16 @@ export const App = () => {
 
   const showResetButton = sortType !== 'none' || isReversed;
 
-  const isSortedAlph = sortType === 'alphabet' && !isReversed;
-  const isSortedLength = sortType === 'length' && !isReversed;
+  // Логіка підсвічування: Перевіряємо лише, чи встановлений sortType.
+  const isSortedAlphActive = sortType === 'alphabet';
+  const isSortedLengthActive = sortType === 'length';
 
   return (
     <div className="section content">
       <div className="buttons">
         <button
           type="button"
-          className={`button is-info ${!isSortedAlph && 'is-light'}`}
+          className={`button is-info ${!isSortedAlphActive && 'is-light'}`}
           onClick={sortByAlph}
         >
           Sort alphabetically
@@ -74,7 +74,7 @@ export const App = () => {
 
         <button
           type="button"
-          className={`button is-success ${!isSortedLength && 'is-light'}`}
+          className={`button is-success ${!isSortedLengthActive && 'is-light'}`}
           onClick={sortByLength}
         >
           Sort by length
